@@ -1,177 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Life Receipts — an interactive story hidden inside digital-life fragments.">
-  <title>Life Receipts — Your life leaves clues.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RECEIPTS — A life, reconstructed.</title>
+<meta name="description" content="An interactive data story reconstructed from digital-life receipts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="noise"></div>
-  <header class="topbar">
-    <a class="brand" href="#top"><span class="brand-mark">⌁</span> LIFE<span>RECEIPTS</span></a>
-    <nav>
-      <a href="#story">Story</a><a href="#connections">Connections</a><a href="#explore">Explore</a>
-    </nav>
-    <button class="ghost-btn" id="storyBtn">Enter story ↗</button>
-  </header>
+<div class="cursor" id="cursor"></div>
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
 
-  <main id="top">
-    <section class="hero wrap">
-      <div class="eyebrow"><span class="pulse"></span> DIGITAL LIFE / RECEIPT INTELLIGENCE</div>
-      <h1>Your life<br><em>leaves clues.</em></h1>
-      <p class="hero-copy">Hundreds of ordinary moments. Music, spending, places and late-night habits. We connected the fragments to reveal the shape of a life — not just a list of events.</p>
-      <div class="hero-actions">
-        <button class="primary-btn" id="discoverBtn">Discover the story <span>↓</span></button>
-        <button class="text-btn" id="surpriseBtn">Surprise me <span>✦</span></button>
+<header class="nav">
+  <a class="logo" href="#top"><span class="logo-dot"></span>RECEIPTS<span class="muted">/01</span></a>
+  <div class="navlinks"><a href="#story">Story</a><a href="#constellation">Constellation</a><a href="#explore">Explore</a><a href="#patterns">Patterns</a></div>
+  <button class="nav-cta" id="jump">Open the story <span>↗</span></button>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="kicker"><span></span> DIGITAL LIFE / RECONSTRUCTED</div>
+      <h1>Every moment<br>leaves a <i>receipt.</i></h1>
+      <p class="lead">A song at 2:44 AM. A meal. A transaction. A route through an ordinary day. Individually, they're noise. Together, they become a portrait.</p>
+      <div class="hero-actions"><button class="black-btn" id="begin">Begin reconstruction <b>↓</b></button><button class="under-btn" id="random">Show me a hidden moment <span>✦</span></button></div>
+    </div>
+    <div class="hero-art">
+      <div class="orbital">
+        <div class="orbit o1"></div><div class="orbit o2"></div><div class="orbit o3"></div>
+        <div class="core"><span>THE<br>STORY</span><b>↗</b></div>
+        <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
       </div>
-      <div class="hero-meta"><span>2013 — 2024</span><span>3 source streams</span><span>159K+ raw receipts</span></div>
-    </section>
+      <div class="floating-card c1"><small>LAST SIGNAL</small><strong id="heroSignal">—</strong><span>across 3 streams</span></div>
+      <div class="floating-card c2"><small>TIME SPAN</small><strong id="heroSpan">—</strong><span>of digital traces</span></div>
+      <div class="scribble">raw data<br><i>→</i> meaning</div>
+    </div>
+  </div>
+  <div class="hero-foot"><span>01 / 04</span><span>Scroll to decode</span><span>⌄</span></div>
+</section>
 
-    <section class="signal-band">
-      <div class="wrap signal-grid">
-        <div><span class="signal-label">RAW RECEIPTS</span><strong id="rawCount">159,000+</strong></div>
-        <div><span class="signal-label">YEARS OF SIGNAL</span><strong>11+</strong></div>
-        <div><span class="signal-label">NIGHT-LIFE SIGNAL</span><strong id="nightShare">—</strong></div>
-        <div><span class="signal-label">TOP SOUNDTRACK</span><strong>The Beatles</strong></div>
-      </div>
-    </section>
+<section class="marquee"><div>RAW DATA <i>→</i> SIGNAL <i>→</i> CONNECTION <i>→</i> STORY <i>→</i> RAW DATA <i>→</i> SIGNAL <i>→</i> CONNECTION <i>→</i> STORY</div></section>
 
-    <section class="wrap section" id="story">
-      <div class="section-head">
-        <div><span class="eyebrow">01 / THE STORY</span><h2>Three streams.<br><em>One person.</em></h2></div>
-        <p>Instead of asking “what happened?”, this view asks “what connects?” The story is built from patterns across the supplied music history, household transactions and card activity.</p>
-      </div>
+<section class="story section" id="story">
+  <div class="section-label">01 / STORY ENGINE</div>
+  <div class="story-intro">
+    <h2>Don't read<br>the data.<br><em>Read between it.</em></h2>
+    <div><p>Three datasets. Different formats. Different behaviors. One shared question:</p><blockquote>“What does all of this mean when it belongs to the same life?”</blockquote><p class="small">The interface turns isolated records into evidence, then lets you follow the evidence into a story.</p></div>
+  </div>
 
-      <div class="chapters">
-        <article class="chapter chapter-dark" data-chapter="soundtrack">
-          <div class="chapter-num">01</div>
-          <div class="chapter-main">
-            <span class="tag">SOUNDTRACK</span>
-            <h3>The years had a rhythm.</h3>
-            <p>The listening history spans more than a decade. One artist rises far above the rest: <b>The Beatles</b>, with thousands of plays. The soundtrack is not random — it repeats, returns and evolves.</p>
-            <button class="inline-btn" data-filter="music">Trace the soundtrack →</button>
-          </div>
-          <div class="mini-chart" id="musicSpark"></div>
-        </article>
+  <div class="insight-stack">
+    <article class="insight dark reveal">
+      <div class="insight-index">01</div><div><span class="label">SOUNDTRACK</span><h3 id="artistLead">—</h3><p>Music becomes a behavioral signal. The most repeated artists and the hours they appear reveal what the raw listening history cannot say by itself.</p><button class="linkbtn" data-scroll="#patterns">Read the pattern <span>→</span></button></div>
+      <div class="stat"><b id="musicCount">—</b><span>listening records</span></div>
+    </article>
+    <article class="insight cream reveal">
+      <div class="insight-index">02</div><div><span class="label">RITUAL</span><h3 id="foodLead">—</h3><p>Household transactions expose repetition: categories, small purchases and recurring routines become a map of everyday life.</p><button class="linkbtn dark" data-scroll="#explore">Trace the receipts <span>→</span></button></div>
+      <div class="stat"><b id="foodCount">—</b><span>household records</span></div>
+    </article>
+    <article class="insight coral reveal">
+      <div class="insight-index">03</div><div><span class="label">CONNECTION</span><h3>A receipt is a doorway.</h3><p>Select one fragment and the engine looks around it. Time proximity turns unrelated streams into a possible scene.</p><button class="linkbtn" id="openConst">Open constellation <span>→</span></button></div>
+      <div class="scene-mini"><i>♪</i><span></span><b>₹</b><span></span><strong>↗</strong></div>
+    </article>
+  </div>
+</section>
 
-        <article class="chapter chapter-paper" data-chapter="ritual">
-          <div class="chapter-num">02</div>
-          <div class="chapter-main">
-            <span class="tag dark">RITUALS</span>
-            <h3>Ordinary life leaves a spending pattern.</h3>
-            <p>Food dominates the household ledger, followed by transportation and household costs. Repetition turns small purchases into a behavioral signature.</p>
-            <button class="inline-btn dark-btn" data-filter="purchase">Open spending trail →</button>
-          </div>
-          <div class="metric-big"><span>Top category</span><strong>Food</strong><small>907 household receipts</small></div>
-        </article>
+<section class="constellation section" id="constellation">
+  <div class="section-label">02 / CONSTELLATION ENGINE</div>
+  <div class="const-head"><h2>Find the moment<br><em>between moments.</em></h2><p>Choose a receipt. Nearby fragments from other streams are pulled into the same frame. The connection is temporal, not assumed.</p></div>
+  <div class="const-wrap">
+    <div class="graph">
+      <div class="graph-grid"></div><span class="graph-title">LIVE RELATIONSHIP MAP</span><span class="graph-help">select a node</span>
+      <div class="line a"></div><div class="line b"></div><div class="line c"></div>
+      <button class="node n-music" id="nm"><span>♪</span><small>music</small></button>
+      <button class="node n-house" id="nh"><span>₹</span><small>ritual</small></button>
+      <button class="node n-card" id="nc"><span>↗</span><small>card</small></button>
+      <div class="node-center" id="center">SELECT<br>A RECEIPT</div>
+      <div class="graph-bottom">± 24H TEMPORAL WINDOW</div>
+    </div>
+    <aside class="scene">
+      <div class="scene-meta"><span>ACTIVE SCENE</span><time id="sceneDate">—</time></div>
+      <div class="scene-icon" id="sceneIcon">✦</div>
+      <h3 id="sceneTitle">Pick a fragment to reconstruct a scene.</h3>
+      <p id="sceneText">The engine will compare timestamps across the three supplied streams and surface the nearest evidence.</p>
+      <div class="scene-items" id="sceneItems"></div>
+    </aside>
+  </div>
+</section>
 
-        <article class="chapter chapter-accent" data-chapter="connection">
-          <div class="chapter-num">03</div>
-          <div class="chapter-main">
-            <span class="tag">CONNECTION ENGINE</span>
-            <h3>Separate moments can become one scene.</h3>
-            <p>Pick any receipt. We search nearby moments from other streams and build a small “scene” around it. Time becomes the thread connecting otherwise unrelated data.</p>
-            <button class="inline-btn" id="openConnection">Try the connection engine →</button>
-          </div>
-          <div class="orbit"><span>♪</span><i>₹</i><b>●</b><small>↗</small></div>
-        </article>
-      </div>
-    </section>
+<section class="explore section" id="explore">
+  <div class="section-label">03 / RECEIPT EXPLORER</div>
+  <div class="explore-head"><h2>The evidence<br><em>is searchable.</em></h2><p>Don't trust the narrative blindly. Explore the underlying fragments, filter the streams and inspect the evidence yourself.</p></div>
+  <div class="toolbar">
+    <div class="search"><span>⌕</span><input id="q" placeholder="Search artist, song, category, merchant..." /></div>
+    <div class="chips" id="chips"><button class="active" data-type="all">All</button><button data-type="music">Music</button><button data-type="household">Household</button><button data-type="card">Card</button></div>
+    <div class="toolbar-foot"><span id="matches">—</span><select id="year"><option value="all">All years</option></select></div>
+  </div>
+  <div class="receipt-list" id="list"></div>
+  <button class="load" id="more">Load more evidence <span>↓</span></button>
+</section>
 
-    <section class="wrap section" id="connections">
-      <div class="section-head compact">
-        <div><span class="eyebrow">02 / CONNECTIONS</span><h2>Find the <em>hidden scene.</em></h2></div>
-        <p>Click a receipt to see nearby fragments from the other streams. A song, a purchase and a card event can form a single moment.</p>
-      </div>
-      <div class="connection-layout">
-        <div class="connection-map" id="connectionMap">
-          <div class="map-label">SCENE GRAPH / TIME PROXIMITY</div>
-          <div class="graph-center" id="graphCenter">Select a receipt</div>
-          <div class="graph-line l1"></div><div class="graph-line l2"></div><div class="graph-line l3"></div>
-          <button class="graph-node node-music" id="nodeMusic">♪<span>music</span></button>
-          <button class="graph-node node-buy" id="nodeBuy">₹<span>spend</span></button>
-          <button class="graph-node node-card" id="nodeCard">↗<span>card</span></button>
-          <div class="graph-foot">Temporal links · ± 24h window</div>
-        </div>
-        <div class="scene-panel">
-          <div class="scene-top"><span class="tag dark">LIVE SCENE</span><span id="sceneDate">—</span></div>
-          <h3 id="sceneTitle">Choose a receipt to begin.</h3>
-          <p id="sceneDesc">The connection engine will look across all three streams and surface nearby moments.</p>
-          <div class="scene-list" id="sceneList"></div>
-        </div>
-      </div>
-    </section>
+<section class="patterns section" id="patterns">
+  <div class="section-label">04 / PATTERN LAB</div>
+  <div class="patterns-head"><h2>Zoom out.<br><em>See the rhythm.</em></h2><p>Patterns are where isolated receipts start behaving like a person.</p></div>
+  <div class="pattern-grid">
+    <div class="panel artist-panel"><div class="panel-top"><span>01 / MOST REPEATED</span><span>LISTENING</span></div><h3>The soundtrack<br>that kept returning.</h3><div id="bars"></div></div>
+    <div class="panel night-panel"><div class="panel-top"><span>02 / 24H RHYTHM</span><span>LISTENING</span></div><h3>Some stories<br>start after midnight.</h3><div class="clock" id="clock"></div><strong class="night-big" id="night">—</strong><p>of listening records begin between 00:00 and 06:00.</p></div>
+    <div class="panel money-panel"><div class="panel-top"><span>03 / EVERYDAY RITUAL</span><span>HOUSEHOLD</span></div><h3 id="moneyTitle">—</h3><div class="money-number" id="money">—</div><p>top household expense category by recorded amount.</p></div>
+    <div class="panel weekday-panel"><div class="panel-top"><span>04 / WEEKLY PULSE</span><span>LISTENING</span></div><h3>When the week<br>gets loud.</h3><div class="week" id="week"></div></div>
+  </div>
+</section>
 
-    <section class="wrap section" id="explore">
-      <div class="section-head">
-        <div><span class="eyebrow">03 / EXPLORER</span><h2>Follow the <em>receipts.</em></h2></div>
-        <p>Search the story, filter by stream and inspect individual fragments. This is the evidence layer underneath the narrative.</p>
-      </div>
-      <div class="explorer">
-        <div class="filters">
-          <div class="search-wrap"><span>⌕</span><input id="search" placeholder="Search artist, song, category, note..." autocomplete="off"></div>
-          <div class="filter-pills" id="filterPills">
-            <button class="filter active" data-filter="all">All</button>
-            <button class="filter" data-filter="music">Music</button>
-            <button class="filter" data-filter="purchase">Household</button>
-            <button class="filter" data-filter="card">Card activity</button>
-          </div>
-          <div class="range-row">
-            <label>Year <select id="yearFilter"><option value="all">All years</option></select></label>
-            <span id="resultCount">— receipts</span>
-          </div>
-        </div>
-        <div class="receipt-grid" id="receiptGrid"></div>
-        <button class="load-more" id="loadMore">Load more receipts</button>
-      </div>
-    </section>
+<section class="final section">
+  <div class="final-kicker">THE RECONSTRUCTION IS NEVER COMPLETE.</div>
+  <h2>A life is not<br>a timeline.<br><em>It's a constellation.</em></h2>
+  <p>Every receipt is tiny. The meaning lives in the distance between them.</p>
+  <button class="black-btn" id="top">Start again <b>↑</b></button>
+</section>
+</main>
 
-    <section class="wrap section pattern-section">
-      <div class="section-head compact">
-        <div><span class="eyebrow">04 / PATTERNS</span><h2>The data <em>speaks.</em></h2></div>
-        <p>Small repetitions become meaningful when you zoom out.</p>
-      </div>
-      <div class="pattern-grid">
-        <div class="pattern-card large">
-          <span class="tag dark">LISTENING PROFILE</span>
-          <h3>What keeps coming back?</h3>
-          <div id="artistBars" class="bars"></div>
-        </div>
-        <div class="pattern-card">
-          <span class="tag dark">24-HOUR RHYTHM</span>
-          <h3>When the day gets quiet.</h3>
-          <div class="hour-wheel" id="hourWheel"></div>
-          <div class="pattern-note"><strong id="nightMetric">—</strong> of listening starts between midnight and 6 AM.</div>
-        </div>
-        <div class="pattern-card dark-card">
-          <span class="tag">SIGNAL</span>
-          <h3>Food is the recurring ritual.</h3>
-          <div class="money">₹<span id="foodSpend">—</span></div>
-          <p>Top household expense category in the supplied ledger.</p>
-        </div>
-      </div>
-    </section>
+<footer><span>RECEIPTS / WEBRUSH</span><span>FRONTEND ONLY · DATA STORY</span><span>2026</span></footer>
 
-    <section class="closing wrap">
-      <span class="eyebrow">THE LAST RECEIPT</span>
-      <h2>A life is not a timeline.<br><em>It is a constellation.</em></h2>
-      <p>Every receipt is tiny. The meaning appears between them.</p>
-      <button class="primary-btn" id="backTop">Read it again ↑</button>
-    </section>
-  </main>
-
-  <footer class="footer wrap">
-    <div class="brand">⌁ LIFE<span>RECEIPTS</span></div>
-    <p>WebRush · 6-hour frontend challenge · Built from the supplied datasets.</p>
-    <span>FRONTEND ONLY / NO BACKEND</span>
-  </footer>
-
-  <script src="data.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+<div class="modal" id="modal"><div class="modal-card"><button class="close" id="close">×</button><span class="label">RECEIPT DETAIL</span><div class="modal-symbol" id="mSymbol">♪</div><h3 id="mTitle">—</h3><p id="mSub">—</p><div class="modal-meta" id="mMeta"></div></div></div>
+<script src="data.js"></script><script src="app.js"></script>
+</body></html>

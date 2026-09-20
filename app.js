@@ -1,120 +1,60 @@
-const D = window.LIFE_DATA;
-const $ = s => document.querySelector(s);
-const $$ = s => [...document.querySelectorAll(s)];
+const D=window.LIFE,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const money=n=>"₹"+new Intl.NumberFormat("en-IN",{maximumFractionDigits:0}).format(n||0);
+const date=v=>{let d=new Date(v);return isNaN(d)?"—":d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})};
+const ico={music:"♪",household:"₹",card:"↗"};
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+let data=D.records.slice().sort((a,b)=>new Date(b.date)-new Date(a.date)), filter="all", q="", year="all", shown=20;
 
-const icon = {music:"♪", purchase:"₹", card:"↗"};
+$("#heroSignal").textContent=data[0]?date(data[0].date):"—";
+$("#heroSpan").textContent=`${date(D.stats.dateStart)} — ${date(D.stats.dateEnd)}`;
+$("#musicCount").textContent=new Intl.NumberFormat("en-IN").format(D.stats.music);
+$("#foodCount").textContent=new Intl.NumberFormat("en-IN").format(D.stats.household);
+const topArtist=Object.entries(D.topArtists)[0]||["The soundtrack",""];
+$("#artistLead").textContent=`${topArtist[0]} kept returning.`;
+const topFood=Object.entries(D.householdCategories)[0]||["Food",0];
+$("#foodLead").textContent=`${topFood[0]} became a ritual.`;
+$("#night").textContent=D.stats.nightShare+"%";
+$("#moneyTitle").textContent=topFood[0];
+$("#money").textContent=money(topFood[1]);
 
-function fmt(n){return new Intl.NumberFormat("en-IN",{maximumFractionDigits:0}).format(n)}
-function fmtMoney(n){return "₹"+fmt(n)}
-function prettyDate(v){const d=new Date(v);return d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})}
-function normalize(r){
-  let title=r.title||"Untitled receipt", subtitle=r.subtitle||"", detail=r.detail||"";
-  return {...r,title:String(title),subtitle:String(subtitle),detail:String(detail)};
+function renderBars(){
+ let rows=Object.entries(D.topArtists).slice(0,7), max=rows[0]?.[1]||1;
+ $("#bars").innerHTML=rows.map(([n,v])=>`<div class="bar"><span>${esc(n)}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><span>${v.toLocaleString()}</span></div>`).join("");
 }
-let activeFilter="all", query="", activeYear="all", visible=18;
-
-const allRecords = D.records.map(normalize).sort((a,b)=>new Date(b.date)-new Date(a.date));
-
-$("#rawCount").textContent = fmt(D.stats.music + D.stats.household + D.stats.card);
-$("#nightShare").textContent = D.stats.nightShare+"%";
-$("#nightMetric").textContent = D.stats.nightShare+"%";
-$("#foodSpend").textContent = fmtMoney(D.hhCategories["Food"]||0).replace("₹","");
-$("#resultCount").textContent = `${allRecords.length} visible sample receipts`;
-
-function renderSpark(){
-  const vals=Object.values(D.spYear), max=Math.max(...vals);
-  $("#musicSpark").innerHTML=vals.map(v=>`<i style="height:${Math.max(8,v/max*100)}%"></i>`).join("");
+function renderClock(){
+ let box=$("#clock"), vals=D.hours, max=Math.max(...Object.values(vals));
+ box.innerHTML="";
+ for(let h=0;h<24;h++){let a=h/24*Math.PI*2-Math.PI/2,r=63,x=70+Math.cos(a)*r-3,y=70+Math.sin(a)*r-3,d=document.createElement("i");d.className="hourdot";d.style.left=x+"px";d.style.top=y+"px";d.style.transform=`scale(${.6+(vals[h]||0)/max*1.8})`;box.appendChild(d)}
 }
-function renderArtists(){
-  const rows=Object.entries(D.topArtists).slice(0,7), max=rows[0][1];
-  $("#artistBars").innerHTML=rows.map(([name,n])=>`
-    <div class="bar-row"><span>${name}</span><div class="bar-track"><div class="bar-fill" style="width:${n/max*100}%"></div></div><span>${fmt(n)}</span></div>`).join("");
+function renderWeek(){
+ let box=$("#week"), vals=D.weekdays, max=Math.max(...Object.values(vals));
+ box.innerHTML=Object.entries(vals).map(([n,v])=>`<div class="wday"><div class="wbar" style="height:${25+v/max*70}px"></div>${n.slice(0,3)}</div>`).join("");
 }
-function renderHours(){
-  const wheel=$("#hourWheel"), vals=D.hourCounts, max=Math.max(...Object.values(vals));
-  wheel.innerHTML="";
-  for(let h=0;h<24;h++){
-    const angle=(h/24)*Math.PI*2-Math.PI/2, radius=68;
-    const x=75+Math.cos(angle)*radius-3.5,y=75+Math.sin(angle)*radius-3.5;
-    const dot=document.createElement("i");dot.className="hour-dot";dot.style.left=x+"px";dot.style.top=y+"px";
-    dot.style.transform=`scale(${.55+(vals[h]||0)/max*1.8})`;wheel.appendChild(dot);
-  }
+function years(){let ys=[...new Set(data.map(r=>new Date(r.date).getFullYear()).filter(Boolean))].sort((a,b)=>b-a);$("#year").innerHTML='<option value="all">All years</option>'+ys.map(y=>`<option>${y}</option>`).join("")}
+function filtered(){return data.filter(r=>{let hay=[r.title,r.subtitle,r.detail,r.meta,r.type].join(" ").toLowerCase();return(!q||hay.includes(q))&&(filter==="all"||r.type===filter)&&(year==="all"||String(new Date(r.date).getFullYear())===year)})}
+function renderList(){let rows=filtered(),show=rows.slice(0,shown);$("#matches").textContent=`${rows.length} matching receipts`;$("#list").innerHTML=show.map((r,i)=>`<article class="receipt" data-i="${data.indexOf(r)}"><span class="r-icon">${ico[r.type]||"•"}</span><h4>${esc(r.title)}</h4><p>${esc(r.subtitle||r.detail||"Digital-life fragment")}</p><div class="receipt-meta"><span>${date(r.date)}</span><b>${r.amount!=null?money(r.amount):r.type}</b></div></article>`).join("")||"<p>No evidence found.</p>";$("#more").style.display=show.length<rows.length?"block":"none";$$(".receipt").forEach(x=>x.onclick=()=>openReceipt(data[+x.dataset.i]))}
+function openReceipt(r){$("#mSymbol").textContent=ico[r.type]||"•";$("#mTitle").textContent=r.title;$("#mSub").textContent=r.subtitle||r.detail||"Digital-life fragment";$("#mMeta").textContent=[date(r.date),r.meta,r.amount!=null?money(r.amount):"",r.detail].filter(Boolean).join("  ·  ");$("#modal").classList.add("open")}
+$("#close").onclick=()=>$("#modal").classList.remove("open");$("#modal").onclick=e=>{if(e.target.id==="modal")$("#modal").classList.remove("open")};
+$$(".chips button").forEach(b=>b.onclick=()=>{$$(".chips button").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.type;shown=20;renderList()});
+$("#q").oninput=e=>{q=e.target.value.toLowerCase();shown=20;renderList()};$("#year").onchange=e=>{year=e.target.value;shown=20;renderList()};$("#more").onclick=()=>{shown+=20;renderList()};
+$$("[data-scroll]").forEach(b=>b.onclick=()=>$(b.dataset.scroll).scrollIntoView({behavior:"smooth"}));
+$("#begin").onclick=()=>$("#story").scrollIntoView({behavior:"smooth"});$("#jump").onclick=()=>$("#story").scrollIntoView({behavior:"smooth"});
+$("#top").onclick=()=>scrollTo({top:0,behavior:"smooth"});
+$("#random").onclick=()=>openReceipt(data[Math.floor(Math.random()*data.length)]);
+$("#openConst").onclick=()=>$("#constellation").scrollIntoView({behavior:"smooth"});
+function scene(seed){
+ let t=new Date(seed.date).getTime(), near=data.filter(r=>r!==seed).map(r=>({...r,delta:Math.abs(new Date(r.date).getTime()-t)})).filter(r=>r.delta<=86400000).sort((a,b)=>a.delta-b.delta);
+ let pick={music:near.find(r=>r.type==="music"),household:near.find(r=>r.type==="household"),card:near.find(r=>r.type==="card")};
+ $("#sceneDate").textContent=date(seed.date);$("#sceneIcon").textContent=ico[seed.type]||"✦";$("#center").innerHTML=esc(seed.title).slice(0,26);
+ $("#sceneTitle").textContent=seed.title;$("#sceneText").textContent=`A ${seed.type} receipt becomes the anchor. Nearby fragments within ±24 hours are surfaced as possible evidence for the same scene.`;
+ $("#sceneItems").innerHTML=[seed,...Object.values(pick).filter(Boolean)].map(r=>`<div class="scene-item"><span>${ico[r.type]||"•"}</span><b>${esc(r.title)}</b><small>${r.amount!=null?money(r.amount):date(r.date)}</small></div>`).join("");
+ $("#nm").style.opacity=pick.music?"1":".35";$("#nh").style.opacity=pick.household?"1":".35";$("#nc").style.opacity=pick.card?"1":".35";
 }
-function populateYears(){
-  const years=[...new Set(allRecords.map(r=>new Date(r.date).getFullYear()))].sort((a,b)=>b-a);
-  $("#yearFilter").innerHTML='<option value="all">All years</option>'+years.map(y=>`<option>${y}</option>`).join("");
-}
-function filtered(){
-  return allRecords.filter(r=>{
-    const hay=[r.title,r.subtitle,r.detail,r.meta,r.type].join(" ").toLowerCase();
-    const okQ=!query||hay.includes(query);
-    const okF=activeFilter==="all"||r.type===activeFilter;
-    const okY=activeYear==="all"||String(new Date(r.date).getFullYear())===activeYear;
-    return okQ&&okF&&okY;
-  });
-}
-function renderReceipts(){
-  const rows=filtered(), shown=rows.slice(0,visible);
-  $("#resultCount").textContent=`${rows.length} matching receipts`;
-  $("#receiptGrid").innerHTML=shown.map((r,i)=>`
-    <article class="receipt" data-index="${allRecords.indexOf(r)}">
-      <span class="receipt-icon">${icon[r.type]||"•"}</span>
-      <h4>${escapeHtml(r.title)}</h4>
-      <p>${escapeHtml(r.subtitle||r.detail||"A digital-life fragment")}</p>
-      <div class="receipt-meta"><span>${prettyDate(r.date)}</span><span>${r.amount?fmtMoney(Number(r.amount)):r.meta||r.type}</span></div>
-    </article>`).join("") || `<div style="grid-column:1/-1;padding:40px;color:#777">No receipts match this trail.</div>`;
-  $("#loadMore").style.display=shown.length<rows.length?"block":"none";
-  $$(".receipt").forEach(el=>el.addEventListener("click",()=>selectReceipt(allRecords[+el.dataset.index])));
-}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+$$(".node").forEach((b,i)=>b.onclick=()=>scene(data[i%data.length]));
+scene(data.find(r=>r.type==="music")||data[0]);
+renderBars();renderClock();renderWeek();years();renderList();
 
-function selectReceipt(seed){
-  const seedDate=new Date(seed.date).getTime();
-  const candidates=allRecords.filter(r=>r!==seed).map(r=>({...r,delta:Math.abs(new Date(r.date).getTime()-seedDate)}))
-    .sort((a,b)=>a.delta-b.delta);
-  const near=candidates.filter(r=>r.delta<=86400000);
-  const byType={music:near.find(r=>r.type==="music"),purchase:near.find(r=>r.type==="purchase"),card:near.find(r=>r.type==="card")};
-  $("#sceneDate").textContent=prettyDate(seed.date);
-  $("#sceneTitle").textContent=seed.title;
-  $("#sceneDesc").textContent=`A ${seed.type} receipt becomes the anchor. Nearby fragments are surfaced within a ±24 hour window to create a possible scene.`;
-  $("#graphCenter").textContent=seed.title.length>22?seed.title.slice(0,22)+"…":seed.title;
-  $("#nodeMusic").style.opacity=byType.music?"1":".35";
-  $("#nodeBuy").style.opacity=byType.purchase?"1":".35";
-  $("#nodeCard").style.opacity=byType.card?"1":".35";
-  $("#sceneList").innerHTML=[seed,...Object.values(byType).filter(Boolean)].map(r=>`
-    <div class="scene-item"><span>${icon[r.type]||"•"}</span><div><b>${escapeHtml(r.title)}</b><small>${escapeHtml(r.subtitle||r.detail||r.type)}</small></div><small>${r.amount?fmtMoney(Number(r.amount)):prettyDate(r.date)}</small></div>`).join("");
-  $("#connections").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-$$(".filter").forEach(b=>b.addEventListener("click",()=>{
-  $$(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");
-  activeFilter=b.dataset.filter;visible=18;renderReceipts();
-}));
-$$("[data-filter]").forEach(b=>{
-  if(b.classList.contains("filter")) return;
-  b.addEventListener("click",()=>{
-    const target=b.dataset.filter;
-    activeFilter=target;$$(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter===target));
-    visible=18;renderReceipts();$("#explore").scrollIntoView({behavior:"smooth"});
-  });
-});
-$("#search").addEventListener("input",e=>{query=e.target.value.toLowerCase().trim();visible=18;renderReceipts()});
-$("#yearFilter").addEventListener("change",e=>{activeYear=e.target.value;visible=18;renderReceipts()});
-$("#loadMore").addEventListener("click",()=>{visible+=18;renderReceipts()});
-$("#discoverBtn").addEventListener("click",()=>$("#story").scrollIntoView({behavior:"smooth"}));
-$("#storyBtn").addEventListener("click",()=>$("#connections").scrollIntoView({behavior:"smooth"}));
-$("#openConnection").addEventListener("click",()=>{
-  const seed=allRecords.find(r=>r.type==="music")||allRecords[0];selectReceipt(seed);
-});
-$("#surpriseBtn").addEventListener("click",()=>{
-  const seed=allRecords[Math.floor(Math.random()*allRecords.length)];selectReceipt(seed);
-});
-$("#backTop").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
-
-renderSpark();renderArtists();renderHours();populateYears();renderReceipts();
-
-const observer=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting&&e.target.classList.add("visible")),{threshold:.08});
-$$(".section,.chapter,.pattern-card").forEach(x=>{x.classList.add("reveal");observer.observe(x)});
-
-// Start with a meaningful example scene.
-selectReceipt(allRecords.find(r=>r.type==="music")||allRecords[0]);
+window.addEventListener("scroll",()=>{let h=document.documentElement.scrollHeight-innerHeight;$("#progress").style.width=(scrollY/h*100)+"%";});
+document.addEventListener("mousemove",e=>{$("#cursor").style.left=e.clientX+"px";$("#cursor").style.top=e.clientY+"px"});
+const obs=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("show")),{threshold:.08});
+$$(".reveal").forEach(x=>obs.observe(x));

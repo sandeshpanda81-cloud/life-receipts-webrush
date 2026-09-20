@@ -1,52 +1,43 @@
-# LIFE RECEIPTS — WebRush 6-Hour Frontend Hackathon
+# RECEIPTS — WebRush God Mode
 
-A frontend-only storytelling experience for the **Your Life, In Receipts 🧾** challenge.
+A frontend-only data-story experience for **Your Life, In Receipts 🧾**.
 
-## Concept
-
+## What changed
+This version was reconstructed around the challenge's core requirement:
 **Raw Data → Information → Insights → Connections → Story**
 
-The experience turns three supplied data streams into a narrative:
+### Experience
+- Editorial / premium landing page
+- Story Engine with three narrative chapters
+- Constellation Engine using a ±24h temporal window
+- Searchable and filterable receipt explorer
+- Interactive receipt detail modal
+- Pattern Lab: artist recurrence, 24-hour rhythm, household spending and weekday pulse
+- Responsive desktop/tablet/mobile layout
+- Smooth motion, micro-interactions, scroll progress and visual hierarchy
+- Frontend-only; no backend or secret keys
+
+## Data
+The included `data.js` is derived from the three supplied datasets:
 - Spotify listening history
-- Daily household transactions
-- India transaction/card activity
+- Daily Household Transactions
+- Augmented India transaction dataset
 
-Instead of presenting a plain timeline, the UI:
-1. surfaces behavioral patterns,
-2. creates story chapters,
-3. lets the user search/filter receipts,
-4. connects nearby receipts across streams with a ±24-hour scene engine,
-5. visualizes recurring listening and spending signals.
+The frontend ships a compact representative evidence set plus computed aggregate patterns, keeping the deployment fast.
 
-## Run locally
-
-No build step is required.
-
-Open `index.html` in a browser, or use VS Code Live Server.
+## Run
+Open `index.html` directly, or use VS Code Live Server.
 
 ## Deploy
+GitHub Pages:
+Settings → Pages → Deploy from branch → `main` → `/root`.
 
-### GitHub Pages
-1. Create a public GitHub repository.
-2. Upload `index.html`, `style.css`, `app.js`, and `data.js`.
-3. Go to **Settings → Pages**.
-4. Choose **Deploy from a branch** → `main` → `/root`.
-5. Save and wait for the Pages URL.
-
-### Netlify
-Drag the whole project folder into Netlify's deploy area.
-
-## Important
-
-This is intentionally **frontend-only**. No backend, server, database, or secret API key is used.
+Netlify/Vercel can also deploy the folder as a static site.
 
 ## Submission checklist
-
-- [ ] Live URL opens in incognito
-- [ ] GitHub repository is public
-- [ ] Search works
-- [ ] Filters work
-- [ ] Connection engine works
-- [ ] Mobile layout tested
-- [ ] README included
-- [ ] No local file paths or secrets
+- [ ] Public GitHub repository
+- [ ] Live URL works in incognito
+- [ ] Test search + filters
+- [ ] Test constellation nodes
+- [ ] Test mobile
+- [ ] Keep README
